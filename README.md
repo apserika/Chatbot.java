@@ -1,7 +1,7 @@
 
 1. **Entrada do Usuário:**
    - O programa inicia pedindo ao usuário que digite algo.
-
+ 
 2. **Comunicação com a API OpenAI:**
    - A entrada do usuário é enviada para a API OpenAI usando uma conexão HTTP.
 
