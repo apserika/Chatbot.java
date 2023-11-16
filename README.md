@@ -1,85 +1,17 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
 
-public class Main {
+1. **Entrada do Usuário:**
+   - O programa inicia pedindo ao usuário que digite algo.
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+2. **Comunicação com a API OpenAI:**
+   - A entrada do usuário é enviada para a API OpenAI usando uma conexão HTTP.
 
-        System.out.println("Bem-vindo! Meu nome é PepeIT, estou aqui para te auxiliar. Em que posso te ajudar hoje?  Digite 'exit' para sair.");
+3. **Recebimento da Resposta:**
+   - O programa recebe a resposta da API, que é uma mensagem gerada pela inteligência artificial.
 
-        while (true) {
-            System.out.print("Usuário: ");
-            String userInput = scanner.nextLine();
+4. **Exibição da Resposta:**
+   - A mensagem gerada pela IA é exibida na tela como a resposta do programa.
 
-            if (userInput.equalsIgnoreCase("exit")) {
-                System.out.println("Saindo do ChatGPT. Até mais!");
-                break;
-            }
+5. **Repetição ou Saída:**
+   - O processo se repete até que o usuário decida sair digitando "exit".
 
-            String response = chatGPT(userInput);
-            System.out.println("PepeIT: " + response);
-        }
-
-        scanner.close();
-    }
-
-    public static String chatGPT(String message) {
-        String url = "https://api.openai.com/v1/chat/completions";
-        String apiKey = "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"; // Substitua pelo seu API Key
-        String model = "gpt-3.5-turbo"; // Modelo atual da API ChatGPT
-
-        try {
-            URL obj = new URL(url);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-            con.setRequestMethod("POST");
-            con.setRequestProperty("Authorization", "Bearer " + apiKey);
-            con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            con.setDoOutput(true);
-
-            // Construa o corpo da requisição com a codificação UTF-8
-            String body = "{\"model\": \"" + model + "\", \"messages\": [{\"role\": \"user\", \"content\": \"" + message + "\"}]}";
-
-            try (OutputStream os = con.getOutputStream()) {
-                os.write(body.getBytes(StandardCharsets.UTF_8));
-            }
-
-            // Verifique o código de resposta HTTP
-            int responseCode = con.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                // Leia a resposta usando InputStreamReader configurado com UTF-8
-                try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8))) {
-                    StringBuilder response = new StringBuilder();
-                    String inputLine;
-                    while ((inputLine = in.readLine()) != null) {
-                        response.append(inputLine);
-                    }
-                    // Retorna o conteúdo extraído da resposta
-                    return extractContentFromResponse(response.toString());
-                }
-            } else {
-                // Trate a resposta de erro, se necessário
-                System.out.println("Erro na solicitação. Código de resposta: " + responseCode);
-                return null;
-            }
-
-        } catch (IOException e) {
-            // Trate exceções de E/S
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    // Este método extrai a resposta esperada do ChatGPT e a retorna.
-    public static String extractContentFromResponse(String response) {
-        int startMarker = response.indexOf("content") + 11; // Marcador onde o conteúdo começa.
-        int endMarker = response.indexOf("\"", startMarker); // Marcador onde o conteúdo termina.
-        return response.substring(startMarker, endMarker); // Retorna a substring contendo apenas a resposta.
-    }
-}
+O código usa o Java para criar uma interface de chat simples entre o usuário e a API OpenAI. O método `chatGPT` é responsável por enviar a mensagem do usuário para a API e processar a resposta. O programa continua interagindo até que o usuário escolha sair.
