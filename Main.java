@@ -32,7 +32,7 @@ public class Main {
 
     public static String chatGPT(String message) {
         String url = "https://api.openai.com/v1/chat/completions";
-        String apiKey = "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"; // Substitua pelo seu API Key
+        String apiKey = ""; // Substitua pelo seu API Key
         String model = "gpt-3.5-turbo"; // Modelo atual da API ChatGPT
 
         try {
